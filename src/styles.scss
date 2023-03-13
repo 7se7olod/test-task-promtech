@@ -1,0 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+//$font: 'Montserrat', sans-serif;
+//$darkBlueColor: #1D1838;
+
+@mixin darkBlueColorMontserrat {
+  font-family: 'Montserrat', sans-serif;
+  color: #1D1838;
+}
+
+body {
+  @include darkBlueColorMontserrat;
+  background-color: #F4F4F4;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,0 +1,36 @@
+.films {
+  padding: 37px 25px;
+  .films-title {
+    color: #1D1838;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .films-popular {
+    .films-fields {
+      display: flex;
+      flex-direction: row;
+      gap: 7px;
+
+      .films-search-button {
+        border: none;
+        background-color: transparent;
+      }
+      .films-search-button:hover svg {
+        fill: #1D1838;
+      }
+    }
+
+    .films-cards {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      flex-wrap: wrap;
+      column-gap: 10px;
+      row-gap: 30px;
+    }
+  }
+
+  .films-favourite {
+    margin-top: 40px;
+  }
+}

@@ -1,0 +1,21 @@
+<div class="dialog">
+  <div class="dialog-container">
+    <div class="dialog-image">
+      <img src="./images/{{filmData.id}}.jpeg" alt="{{filmData.name}}">
+    </div>
+    <div class="dialog-info">
+      <div class="dialog-info-title">{{filmData.name}}</div>
+      <div class="dialog-info-genre">{{filmData.genre | filmGenres}}</div>
+      <div class="dialog-info-year">{{filmData.year}}</div>
+      <div class="dialog-info-description">{{filmData.description}}</div>
+      <div class="dialog-info-buttons">
+        <button *ngIf="!isVeryFavoriteFilm; else warnColorButton" mat-button color="primary" (click)="addToFavoriteFilm()">Выбрать лучшим фильмом</button>
+        <button mat-button color="accent" (click)="onCloseDialog()">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #warnColorButton>
+  <button mat-button color="warn" (click)="addToFavoriteFilm()">Удалить из лучших фильмов</button>
+</ng-template>
