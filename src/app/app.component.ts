@@ -1,16 +1,11 @@
-import {Component} from '@angular/core';
+import {Component, Inject, Injectable} from '@angular/core';
 import {DataService} from "./services/data.service";
-import {Observable, of} from "rxjs";
+import {Observable} from "rxjs";
 import {FavoriteFilmService} from "./services/favorite-film.service";
 import {FILM_GENRES} from "./constants/film-genres";
-
-export interface Film {
-  "id": number;
-  "name": string;
-  "year": number;
-  "description": string;
-  "genre": number[];
-}
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {DialogComponent} from "./dialog/dialog.component";
+import {Film} from "./interfaces/film.interface";
 
 @Component({
   selector: 'app-root',
@@ -18,54 +13,38 @@ export interface Film {
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  public films$: Observable<Film[]> = this.dataService.getData();
-  private allFilms: Film[];
-  private filteredFilms: Film[];
-  public selectedGenre: number;
+  public films$: Observable<Film[]> = this.dataService.films$;
   public favoriteFilmId$: Observable<number> = this.favoriteFilmService.favoriteFilmId$;
   public currentFavoriteFilm$ = this.favoriteFilmService.updateFavoriteCard();
-  private genresFilm = FILM_GENRES;
-  public allGenres: string[] = [];
-  public searchTerm: string;
+  public allGenres: string[] = Object.values(FILM_GENRES);
+  public searchTerm: string
+  private dialogRef: MatDialogRef<DialogComponent>;
 
   constructor(
     private dataService: DataService,
-    private favoriteFilmService: FavoriteFilmService) {
+    private favoriteFilmService: FavoriteFilmService,
+    private dialog: MatDialog) {
+  }
 
-    for (let key in this.genresFilm) {
-      this.allGenres.push(this.genresFilm[key]);
-    }
-
-    this.films$
-      .subscribe(films => {
-        this.allFilms = films;
-        this.filteredFilms = films;
-      });
+  public openDialogFilm(film: Film): void {
+    this.dialogRef = this.dialog.open(DialogComponent, {data: film});
+    this.dialogRef.afterClosed().subscribe();
   }
 
   public onSaveFilm(id: number): void {
-    this.favoriteFilmService.setToFavoriteFilm(id);
+    this.favoriteFilmService.addToFavoriteFilm(id)
     this.currentFavoriteFilm$ = this.favoriteFilmService.updateFavoriteCard();
   }
 
   public showAllFilms(): void {
-    this.films$ = this.dataService.getData();
+    this.films$ = this.dataService.films$;
   }
 
-  public updateListFilms(value: string): void {
-    const genreId = Object.keys(this.genresFilm).find(key => this.genresFilm[Number(key)] === value);
-    this.selectedGenre = Number(genreId);
-    this.filteredFilms = this.allFilms.filter(film => film.genre.includes(Number(genreId)));
-    this.films$ = of(this.filteredFilms);
+  public sortingByGenre(value: string): void {
+    this.films$ = this.dataService.sortingByGenre(value);
   }
 
-  public search(): void {
-    if (!this.searchTerm || (this.searchTerm.trim() === '')) {
-      this.filteredFilms = this.allFilms;
-      this.films$ = of(this.filteredFilms);
-    } else {
-      this.filteredFilms = this.filteredFilms.filter(film => film.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
-      this.films$ = of(this.filteredFilms);
-    }
+  public searchFilmTitle(): void {
+    this.films$ = this.dataService.searchFilmTitle(this.searchTerm);
   }
 }

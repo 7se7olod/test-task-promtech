@@ -1,7 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Film} from "../app.component";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {DialogComponent} from "../dialog/dialog.component";
+import {Film} from "../interfaces/film.interface";
 
 @Component({
   selector: 'film-card',
@@ -14,17 +12,8 @@ export class FilmCardComponent {
   @Input() isFavoriteFilm: boolean;
   @Input() isFavoriteButton: boolean;
   @Output() changeFavorite = new EventEmitter<void>();
-  private dialogRef: MatDialogRef<DialogComponent>;
 
-  constructor(private dialog: MatDialog) {}
-
-  // to appComponent
-  public openDialog() {
-    this.dialogRef = this.dialog.open(DialogComponent, {
-      data: this.filmData
-    });
-    this.dialogRef.afterClosed().subscribe();
-  }
+  constructor() {}
 
   public toggleIsFavoriteFilm(event: Event) {
     event.stopPropagation();

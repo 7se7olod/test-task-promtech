@@ -9,13 +9,23 @@
       <div class="dialog-info-year">{{filmData.year}}</div>
       <div class="dialog-info-description">{{filmData.description}}</div>
       <div class="dialog-info-buttons">
-        <button *ngIf="!isVeryFavoriteFilm; else warnColorButton" mat-button color="primary" (click)="addToFavoriteFilm()">Выбрать лучшим фильмом</button>
-        <button mat-button color="accent" (click)="onCloseDialog()">Закрыть</button>
+        <button *ngIf="(favoriteFilmId$ | async) === filmData.id; else warnColorButton"
+                (click)="toggleFavoriteFilm(filmData.id)"
+                mat-button color="warn">
+          Удалить из лучших фильмов
+        </button>
+        <button mat-button color="accent"
+                (click)="closeDialog()">
+          Закрыть
+        </button>
       </div>
     </div>
   </div>
 </div>
 
 <ng-template #warnColorButton>
-  <button mat-button color="warn" (click)="addToFavoriteFilm()">Удалить из лучших фильмов</button>
+  <button mat-button color="primary"
+          (click)="toggleFavoriteFilm(filmData.id)">
+    Выбрать лучшим фильмом
+  </button>
 </ng-template>

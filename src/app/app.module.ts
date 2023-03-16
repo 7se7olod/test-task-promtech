@@ -6,13 +6,16 @@ import {FilmCardModule} from "./film-card/film-card.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
-import { CommonModule } from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {FormsModule} from "@angular/forms";
-
+import {MatDialogModule} from "@angular/material/dialog";
+import {DialogComponent} from "./dialog/dialog.component";
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,
@@ -22,7 +25,9 @@ import {FormsModule} from "@angular/forms";
     MatSelectModule,
     MatInputModule,
     CommonModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
