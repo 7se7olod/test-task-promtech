@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, Observable, subscribeOn, take} from "rxjs";
 import {LocalStorageService} from "./local-storage.service";
 import {FILM_FAVORITE_KEY} from "../constants/film-favorite-key";
 import {Film} from "../interfaces/film.interface";
@@ -10,7 +10,7 @@ import {DataService} from "./data.service";
 })
 export class FavoriteFilmService {
   public favoriteFilmId$ = new BehaviorSubject<number>(this.localStorageService.getFromLocalStorage(FILM_FAVORITE_KEY) || null);
-  public films$: Observable<Film[]> = this.dataService.getData();
+  public films$: Observable<Film[]> = this.dataService.films$;
   private currentFavoriteFilm$ = new BehaviorSubject(null);
 
   constructor(private localStorageService: LocalStorageService,
@@ -19,7 +19,7 @@ export class FavoriteFilmService {
   public addToFavoriteFilm(filmID: number) {
     this.setToFavoriteFilm(filmID);
     const currentFilmID = this.localStorageService.getFromLocalStorage(FILM_FAVORITE_KEY);
-    this.films$.subscribe(films => {
+    this.films$.pipe(take(1)).subscribe(films => {
       this.currentFavoriteFilm$.next(films.find(film => film.id === currentFilmID));
     });
   }
@@ -37,7 +37,7 @@ export class FavoriteFilmService {
 
   public updateFavoriteCard(): Observable<Film> {
     const currentFilmID = this.localStorageService.getFromLocalStorage(FILM_FAVORITE_KEY);
-    this.films$.subscribe(films => {
+    this.films$.pipe(take(1)).subscribe(films => {
       this.currentFavoriteFilm$.next(films.find(film => film.id === currentFilmID));
     });
     return this.currentFavoriteFilm$;

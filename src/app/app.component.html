@@ -16,7 +16,9 @@
       </mat-form-field>
       <mat-form-field class="example-form-field">
         <mat-label>Введите название</mat-label>
-        <input [(ngModel)]="searchTerm" matInput type="text">
+        <input [(ngModel)]="searchTerm"
+               (keydown.enter)="searchFilmTitle()"
+               matInput type="text">
         <button class="films-search-button" matSuffix mat-icon-button aria-label="Clear" (click)="searchFilmTitle()">
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#808080FF"
                height="24px" width="24px" version="1.1" id="Capa_1" viewBox="0 0 52.966 52.966" xml:space="preserve">

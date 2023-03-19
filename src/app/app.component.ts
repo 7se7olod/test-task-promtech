@@ -1,4 +1,4 @@
-import {Component, Inject, Injectable} from '@angular/core';
+import {Component} from '@angular/core';
 import {DataService} from "./services/data.service";
 import {Observable} from "rxjs";
 import {FavoriteFilmService} from "./services/favorite-film.service";
@@ -17,7 +17,8 @@ export class AppComponent {
   public favoriteFilmId$: Observable<number> = this.favoriteFilmService.favoriteFilmId$;
   public currentFavoriteFilm$ = this.favoriteFilmService.updateFavoriteCard();
   public allGenres: string[] = Object.values(FILM_GENRES);
-  public searchTerm: string
+  public searchTerm: string = '';
+  public currentGenre: string = '';
   private dialogRef: MatDialogRef<DialogComponent>;
 
   constructor(
@@ -40,11 +41,20 @@ export class AppComponent {
     this.films$ = this.dataService.films$;
   }
 
-  public sortingByGenre(value: string): void {
-    this.films$ = this.dataService.sortingByGenre(value);
+  public sortingByGenre(genre: string): void {
+    if (genre) {
+      this.currentGenre = genre;
+      this.films$ = this.dataService.sortingByGenre(genre);
+    } else {
+      this.films$ = this.dataService.films$;
+    }
   }
 
   public searchFilmTitle(): void {
-    this.films$ = this.dataService.searchFilmTitle(this.searchTerm);
+    if (this.searchTerm) {
+      this.films$ = this.dataService.searchFilmTitle(this.searchTerm);
+    } else {
+      this.sortingByGenre(this.currentGenre);
+    }
   }
 }
