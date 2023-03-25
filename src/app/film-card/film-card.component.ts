@@ -1,5 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Film} from "../interfaces/film.interface";
+import {FilmGenre} from "../enums/film-genre.enum";
+import {FILM_GENRES} from "../constants/film-genres";
 
 @Component({
   selector: 'film-card',
@@ -18,5 +20,10 @@ export class FilmCardComponent {
   public toggleIsFavoriteFilm(event: Event) {
     event.stopPropagation();
     this.changeFavorite.emit()
+  }
+
+  kek(value: any) {
+    console.log(value)
+    return value.map((value: FilmGenre) => FILM_GENRES[value]).join(', ');
   }
 }

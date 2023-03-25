@@ -2,6 +2,7 @@
 
 
 ##Этап 1
+#### Ссылка на макет:  <a href="https://www.figma.com/file/nHo48zhYIjnSJ73FIfuTYa/%D0%A2%D0%B5%D1%81%D1%82-%D0%9F%D1%80%D0%BE%D0%BC%D1%82%D0%B5%D1%85-(Copy)?node-id=0-1&t=h5Bn5LjBOUMN0O9E-0">тут</a>
 Верстка карточек с фильмами:
 
 1. Верстка по макету, без инпутов и диалогового окна;
